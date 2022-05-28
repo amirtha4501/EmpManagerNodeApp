@@ -1,11 +1,42 @@
 const express = require("express")
-const app = express();
-const port = 3000;
 const connectToDatabase = require("./db");
+const cron = require('node-cron');
+const mailer = require('nodemailer');
+const dotenv = require('dotenv');
+const app = express();
+
 app.use(express.json());
+dotenv.config();
+
+// Creating a transporter
+const transporter = mailer.createTransport({
+  host: process.env.MAIL_HOST,
+  port: process.env.MAIL_PORT,
+  auth: {
+    user: process.env.USER,
+    pass: process.env.PASS
+  }
+});
+
+function sendEmail(message) {
+  //sending the email
+  transporter.sendMail({
+    from: process.env.FROM,
+    to: process.env.TO,
+    subject: process.env.SUBJECT,
+    html: message
+  })
+    .then(_ => { console.log("Email sent on " + new Date()) })
+    .catch(error => { console.log(error) });
+}
+
+// Job scheduling - 1 second interval
+cron.schedule('1 * * * * *', () => {
+  sendEmail('<h4>Hi!</h4><p>Have a nice day :)</p>');
+});
 
 app.get("/", (req, res) => {
-  res.send("Hello! happy day :)")
+  res.send("Hello! I'm a health checker :)")
 });
 
 app.post("/create-user", async (req, res) => {
@@ -89,6 +120,6 @@ app.delete("/delete-user", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`App listening on port ${port}!`)
+app.listen(() => {
+  console.log(`App listening on port ${process.env.PORT}!`)
 });

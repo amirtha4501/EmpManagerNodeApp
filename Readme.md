@@ -1,3 +1,6 @@
+
+## Rough draft of thought process
+
 docker pull mysql:8
 
 C:\Users\Ammu>docker run -d --name mysqlsaaragh -e MYSQL_ROOT_PASSWORD=123456 mysql:8
@@ -8,22 +11,27 @@ C:\Users\Ammu>docker exec -it mysqlsaaragh mysql -uroot -p
 mysql> show databases;
 
 mysql> select @@hostname;
+<pre>
 +--------------+
 | @@hostname   |
 +--------------+
 | 3db1d231a2a4 |
 +--------------+
+</pre>
 
 mysql> select user();
+<pre>
 +----------------+
 | user()         |
 +----------------+
 | root@localhost |
 +----------------+
+</pre>
 
 mysql> create database saaragh;
 
 mysql> show databases;
+<pre>
 +--------------------+
 | Database           |
 +--------------------+
@@ -33,6 +41,7 @@ mysql> show databases;
 | saaragh            |
 | sys                |
 +--------------------+
+</pre>
 
 mysql> alter user 'root' identified with mysql_native_password by 'password';
 
@@ -50,7 +59,9 @@ mysql> create table users (
 
 npm i sequelize, mysql2
 
+npm install nodemailer node-cron
 
 https://medium.com/tech-learn-share/docker-mysql-access-denied-for-user-172-17-0-1-using-password-yes-c5eadad582d3
 https://www.configserverfirewall.com/docker/run-mysql-docker-containers/
 https://codeforgeek.com/nodejs-mysql-tutorial/
+https://www.section.io/engineering-education/node-mailer/
