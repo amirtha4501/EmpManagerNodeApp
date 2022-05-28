@@ -1,11 +1,13 @@
 const Sequelize = require('sequelize');
 const UsersModel = require('./models/users');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const sequelize = new Sequelize(
-  DB_NAME,
-  DB_USER,
-  DB_PASSWORD, {
-  dialect: process.env.DIALECT,
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD, {
+  dialect: 'mysql',
   host: process.env.DB_HOST,
   port: process.env.DB_PORT
 });
